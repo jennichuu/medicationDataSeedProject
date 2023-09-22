@@ -1,3 +1,6 @@
+const prompt=require("prompt-sync")({sigint:true});
+
+
 // Function generates random seed data 
 function generateRandomSeedData(numPoints) {
     const seedData = [];
@@ -27,12 +30,9 @@ function generateRandomSeedData(numPoints) {
   const numberOfPoints = 100;
   const seedData = generateRandomSeedData(numberOfPoints);
 
-  // Function calculates distance between two coordinate points
+  // Function calculates distance between two coordinate points using manhattan distance
   function calculateDistance(x1, y1, x2, y2) {
-    const deltaX = x2 - x1;
-    const deltaY = y2 - y1;
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
+    const distance = Math.abs(x1 - x2) + Math.abs(y1 - y2);
     return distance;
   }
 
@@ -55,6 +55,9 @@ function generateRandomSeedData(numPoints) {
     return sortedFillCenters.slice(0, 3);
   }
 
-  // Final output with input of (4,2)
-  console.log("Closest central fill to 4,2");
-  console.log(findClosestCentralFill(4,2));
+  // Accepts user input of location coordinates
+  var userLocationX = prompt("Enter in x-coordinate:");
+  var userLocationY = prompt("Enter in y-coordinate:");
+
+  console.log("Closest central fill to " + userLocationX + "," + userLocationY + ":");
+  console.log(findClosestCentralFill(userLocationX,userLocationY));
