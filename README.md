@@ -9,6 +9,7 @@ Hello friends. Project basically does the following:
 * Each medication has a non-zero price, expressed in USD. Ex: Medication A at Central Fill 001 costs $30.50
 * The distance between two points should be computed as the Manhattan Distance. //todo
 * //todo: randomly generate each medication and choose the cheapest
+* Accepts coordinate points and returns list of 3 closest facilities, along with the cheapest medication price for each central fill.
 
 Assumptions made:
 * 
