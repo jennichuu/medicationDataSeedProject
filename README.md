@@ -12,6 +12,7 @@ Hello friends. Project basically does the following:
 * Accepts coordinate points and returns list of 3 closest facilities, along with the cheapest medication price for each central fill.
 
 Assumptions made:
+* There would be not more than 100 central fill location data points since my identifier naming logic only works for 1-99.
 * 
 
 I might change the program if I needed to support multiple central fills at the same location by...
