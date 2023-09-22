@@ -1,0 +1,11 @@
+{
+  "name": "ia-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Jennifer Le",
+  "license": "ISC"
+}
