@@ -18,16 +18,31 @@ function generateRandomSeedData(numPoints) {
       {
         identifier = "00"+i; // Unique numeric identifier 010, 011, ...etc.
       }
-      const dollarAmount = Math.random() * 100; // Random dollar amount
-      const letter = ['A', 'B', 'C'][Math.floor(Math.random() * 3)]; // Random medicine letter A, B, or C
+
+      // Create medications A,B,C each with varying prices
+      const medications = [
+        {
+          name: 'Medication A',
+          price: (Math.random() * 100).toFixed(2),
+        },
+        {
+          name: 'Medication B',
+          price: (Math.random() * 100).toFixed(2),
+        },
+        {
+          name: 'Medication C',
+          price: (Math.random() * 100).toFixed(2),
+        },
+      ];
   
-      seedData.push({ identifier, x, y, dollarAmount, letter });
+      seedData.push({ identifier, x, y, medications });
     }
+
     return seedData;
   }
   
   // Number of data points
-  const numberOfPoints = 100;
+  const numberOfPoints = 10;
   const seedData = generateRandomSeedData(numberOfPoints);
 
   // Function calculates distance between two coordinate points using manhattan distance
@@ -36,7 +51,7 @@ function generateRandomSeedData(numPoints) {
     return distance;
   }
 
-  // Function filters for closest 3 points to x,y parameters
+  // Function filters for closest 3 points to x,y parameters from user input coordinates
   function findClosestCentralFill(x,y) {
     let fillCentersList = [];
 
@@ -44,10 +59,13 @@ function generateRandomSeedData(numPoints) {
     {
       let distance = "Distance " + calculateDistance(x,y, seedData[i].x, seedData[i].y).toFixed(0);
       let identifier = "Central Fill " + seedData[i].identifier;
-      let amount = "$" + seedData[i].dollarAmount.toFixed(2);
-      let medication = "Medication " + seedData[i].letter;
 
-      fillCentersList.push({ identifier, amount, medication, distance });
+      // Sort medications by price in ascending order
+      let sortedMedications = seedData[i].medications.sort((a, b) => a.price - b.price);
+      let cheapestMedName = sortedMedications[0].name;
+      let cheapestMedPrice = '$' + sortedMedications[0].price;
+
+      fillCentersList.push({ identifier, cheapestMedName, cheapestMedPrice, distance });
     }
 
     let sortedFillCenters = fillCentersList.sort((r1, r2) => (r1.distance > r2.distance) ? 1 : (r1.distance < r2.distance) ? -1 : 0);
@@ -56,8 +74,22 @@ function generateRandomSeedData(numPoints) {
   }
 
   // Accepts user input of location coordinates
-  var userLocationX = prompt("Enter in x-coordinate:");
-  var userLocationY = prompt("Enter in y-coordinate:");
+  let xInput, yInput;
 
-  console.log("Closest central fill to " + userLocationX + "," + userLocationY + ":");
-  console.log(findClosestCentralFill(userLocationX,userLocationY));
+  do {
+    xInput = prompt("Please enter an x-coordinate (ranging -10, 10):");
+    xInput = parseFloat(xInput); // Convert the user input to a floating-point number
+  
+    yInput = prompt("Please enter an y-coordinate (ranging -10, 10):");
+    yInput = parseFloat(yInput); // Convert the user input to a floating-point number
+  
+    // Check if both x and y coordinates are numbers and fall within the desired range
+    if (xInput >= -10 && xInput <= 10 && yInput >= -10 && yInput <= 10) {
+      break;
+    } else {
+      console.log("Invalid input. Enter x and y coordinates as numbers between -10 and 10.");
+    }
+  } while (true);
+
+  console.log("Closest central fill to " + xInput + "," + yInput + ":");
+  console.log(findClosestCentralFill(xInput,yInput));
